@@ -34,6 +34,7 @@ export default function Home() {
   const exportingPDF = useFitnessStore((state) => state.exportingPDF);
   const setExportingPDF = useFitnessStore((state) => state.setExportingPDF);
   
+  // Disable image generation as Gemini image models require paid tier
   const ENABLE_IMAGE_GENERATION = true;
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -341,7 +342,7 @@ ${structure}`;
     }
   };
 
-  const handleGenerateImage = async (exerciseName: string, imageKey: string) => {
+  const handleGenerateImage = async (exerciseName: string, imageKey: string, itemType: 'exercise' | 'food' = 'exercise') => {
     if (generatedImages[imageKey]) {
       // Delete from both state and IndexedDB
       setGeneratedImages(prev => {
@@ -357,12 +358,17 @@ ${structure}`;
     setError("");
 
     try {
+      // Generate appropriate prompt based on item type
+      const prompt = itemType === 'food'
+        ? `Generate a realistic, appetizing food photography image of ${exerciseName} served on a plate in restaurant style, professional lighting, high quality`
+        : `Generate a realistic fitness image showing someone performing ${exerciseName} exercise in a gym setting`;
+      
       const res = await fetch("/api/generate-image", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt: `Generate a realistic fitness image showing someone performing ${exerciseName} exercise in a gym setting` }),
+        body: JSON.stringify({ prompt }),
       });
 
       if (res.ok && res.headers.get("content-type")?.includes("image")) {

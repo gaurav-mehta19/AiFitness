@@ -12,7 +12,7 @@ interface FitnessPlanDisplayProps {
   loadingImages: Record<string, boolean>;
   ENABLE_IMAGE_GENERATION: boolean;
   onSectionAudio: (section: 'workout' | 'diet' | 'motivation') => void;
-  onGenerateImage: (exerciseName: string, imageKey: string) => void;
+  onGenerateImage: (exerciseName: string, imageKey: string, itemType?: 'exercise' | 'food') => void;
   onCopy: () => void;
   onExportPDF: () => void;
   onToggleFeedback: () => void;
@@ -144,9 +144,11 @@ const FitnessPlanDisplay = forwardRef<HTMLDivElement, FitnessPlanDisplayProps>(
                   };
                   
                   const text = extractText(children);
+                  // Check if it's an exercise OR a food/meal item
                   const isExercise = /\d+\s*sets|sets\s*of|reps|push[-\s]?ups?|squats?|lunges?|curls?|press|rows?|pull[-\s]?ups?|deadlift|plank/i.test(text);
+                  const isFoodItem = /breakfast|lunch|dinner|snack|meal|protein|chicken|fish|egg|oats|rice|salad|vegetables|fruits|smoothie|shake|paneer|tofu|lentils|dal|curry|roti|chapati|quinoa|nuts|yogurt|milk|cheese|avocado|beans|pasta|bread|wrap|bowl|serving|cup|tbsp|grams?|calories/i.test(text);
                   
-                  if (isExercise && ENABLE_IMAGE_GENERATION) {
+                  if ((isExercise || isFoodItem) && ENABLE_IMAGE_GENERATION) {
                     // Extract exercise name more carefully - get everything before the first colon, dash, or number
                     let exerciseName = text.trim();
                     const match = text.match(/^([^:–\-\d]+)/);
@@ -175,8 +177,8 @@ const FitnessPlanDisplay = forwardRef<HTMLDivElement, FitnessPlanDisplayProps>(
                               e.preventDefault();
                               e.stopPropagation();
                               e.nativeEvent.stopImmediatePropagation();
-                              console.log('Clicked:', exerciseName, 'Key:', imageKey);
-                              onGenerateImage(exerciseName, imageKey);
+                              console.log('Clicked:', exerciseName, 'Key:', imageKey, 'Type:', isFoodItem ? 'food' : 'exercise');
+                              onGenerateImage(exerciseName, imageKey, isFoodItem ? 'food' : 'exercise');
                             }}
                             disabled={isLoading}
                             className={`shrink-0 px-3 py-1.5 rounded text-xs font-medium transition-colors whitespace-nowrap ${

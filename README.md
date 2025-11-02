@@ -1,22 +1,19 @@
-# 💪 FitAI Coach - AI-Powered Fitness AssistantThis is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💪 FitAI Coach - AI-Powered Fitness Assistant
 
 
+An intelligent fitness assistant that generates **personalized workout and diet plans** using AI. Built with Next.js, powered by Google Gemini AI, with voice synthesis and AI-generated exercise images for an immersive fitness experience.
 
-```bash
+## 🌐 Live Demo
 
-An intelligent fitness assistant that generates **personalized workout and diet plans** using AI. Built with Next.js, powered by Google Gemini AI, with voice synthesis and AI-generated exercise images for an immersive fitness experience.npm run dev
+**🔗 [View Live App](https://ai-fitness-xi.vercel.app/)**
 
-
-[View Live App] -
-```
+---
 
 ## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
 ### 🎯 Personalized AI Plans
 
-- **Custom Workout Plans** - Daily exercise routines with sets, reps, and rest times tailored to your fitness levelYou can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Custom Workout Plans** - Daily exercise routines with sets, reps, and rest times tailored to your fitness level
 
 - **Personalized Diet Plans** - Meal breakdowns (breakfast, lunch, dinner, snacks) based on dietary preferences
 
